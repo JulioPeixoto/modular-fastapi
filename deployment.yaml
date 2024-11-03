@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fastapi-service
+  labels:
+    app: fastapi-service
+spec:
+  replicas: 2  # Número de réplicas para balanceamento de carga
+  selector:
+    matchLabels:
+      app: fastapi-service
+  template:
+    metadata:
+      labels:
+        app: fastapi-service
+    spec:
+      containers:
+        - name: fastapi-container
+          image: fastapi-service:latest  
+          ports:
+            - containerPort: 8008
+          envFrom:
+            - configMapRef:
+                name: fastapi-config
+          volumeMounts:
+            - mountPath: /app/service
+              name: service-volume
+      volumes:
+        - name: service-volume
+          persistentVolumeClaim:
+            claimName: service-pvc 
