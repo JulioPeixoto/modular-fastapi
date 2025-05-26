@@ -1,22 +1,15 @@
-[tool.poetry]
-name = "api"
+[project]
+name = "boilerplate-llmapp-fastapi"
 version = "0.1.0"
-description = ""
-authors = ["Julio Rafael <juliorafaelnft@hotmail.com>"]
+description = "Add your description here"
 readme = "README.md"
-
-[tool.poetry.dependencies]
-python = "^3.12"
-fastapi = "^0.115.3"
-uvicorn = "^0.32.0"
-langchain = "^0.3.4"
-langchain-core = "^0.3.12"
-langchain-community = "^0.3.3"
-openai = "^1.53.0"
-langchain-openai = "^0.2.4"
-motor = "^3.6.0"
-
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires-python = ">=3.13"
+dependencies = [
+    "colorlog>=6.9.0",
+    "dotenv>=0.9.9",
+    "fastapi>=0.115.12",
+    "langchain>=0.3.25",
+    "langchain-openai>=0.3.18",
+    "motor>=3.7.1",
+    "uvicorn>=0.34.2",
+]

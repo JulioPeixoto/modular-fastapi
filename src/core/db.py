@@ -23,7 +23,6 @@ class MongoDB:
                 if collection not in await self.db.list_collection_names():
                     await self.db.create_collection(collection)
         except Exception as e:
-            raise f"Erro ao criar collections no banco de dados: {e}"
-
+            print(f"Erro ao criar collections no banco de dados: {e}")
 
 mongodb = MongoDB(uri=MONGO_URI, db_name="transcricao_collection")

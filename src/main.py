@@ -1,8 +1,8 @@
 from starlette.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
-from .db.connection import mongodb
+from .core.db import mongodb
 from fastapi import FastAPI
-from .routes import routes
+from .api import api_router
 from .logger import logger
 import asyncio
 import uvicorn
@@ -31,7 +31,8 @@ app.add_middleware(
     CORSMiddleware, allow_origins=_ORIGINS_, allow_methods=["*"], allow_headers=["*"]
 )
 
-app.include_router(routes.router)
+# Incluir todas as rotas da API
+app.include_router(api_router, prefix="/api")
 
 
 if __name__ == "__main__":
