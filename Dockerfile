@@ -1,13 +1,15 @@
-FROM python:3.12-slim
+FROM python:3.13-slim
 
 WORKDIR /app
 
-COPY pyproject.toml poetry.lock /app/
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
-RUN pip install poetry && poetry config virtualenvs.create false && poetry install --no-root
+COPY pyproject.toml uv.lock /app/
+
+RUN uv sync --locked --no-install-project
 
 COPY . /app
 
-EXPOSE 8008
+RUN uv sync --locked
 
-CMD ["uvicorn", "api.main:app", "--reload", "--host", "0.0.0.0", "--port", "8008"]
+CMD ["uv", "run", "uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "8008"]

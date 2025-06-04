@@ -1,39 +1,37 @@
 from typing import List, Optional
+from fastapi import Depends
+from sqlalchemy.orm import Session
 from ..model.prompt import (
     PromptEntity, 
     PromptCreateRequest, 
     PromptUpdateRequest, 
     PromptResponse
 )
-from ..repository.prompt_repository import prompt_repository
+from ..repository.prompt_repository import PromptRepository
+from ..core.database import get_db
 from ..lib import chains
 
 class PromptService:
     """Service para gerenciar a lógica de negócio dos prompts"""
     
-    def __init__(self, repository=prompt_repository):
+    def __init__(self, repository: PromptRepository):
         self.repository = repository
     
-    async def create_prompt_with_response(self, request: PromptCreateRequest) -> PromptResponse:
+    def create_prompt_with_response(self, request: PromptCreateRequest) -> PromptResponse:
         """
         Criar um novo prompt, processar com IA e salvar no banco de dados
         """
         try:
-            # 1. Criar o prompt no repositório
             prompt_entity = self.repository.create(request)
             
-            # 2. Processar o prompt com a IA
             ai_response = chains.openai_request(request.prompt)
             
-            # 3. Atualizar o prompt com a resposta da IA
             update_data = PromptUpdateRequest(response=ai_response)
             updated_prompt = self.repository.update(prompt_entity.id, update_data)
             
-            # 4. Retornar a resposta formatada
             return PromptResponse(**updated_prompt.dict())
             
         except Exception as e:
-            # Se der erro na IA, ainda assim salva o prompt
             if 'prompt_entity' in locals():
                 return PromptResponse(**prompt_entity.dict())
             raise e
@@ -72,5 +70,6 @@ class PromptService:
         """Verificar se um prompt existe"""
         return self.repository.exists(prompt_id)
 
-# Instância singleton do service
-prompt_service = PromptService()
+def get_prompt_service(db: Session = Depends(get_db)) -> PromptService:
+    repository = PromptRepository(db)
+    return PromptService(repository)

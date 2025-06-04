@@ -1,26 +1,28 @@
 from starlette.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
-from .core.db import mongodb
+from .core.database import create_tables, close_db
 from fastapi import FastAPI
 from .api import api_router
 from .logger import logger
-import asyncio
-import uvicorn
 import os
+import uvicorn
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    """Função async para criar as collections no Data Base"""
+    """Função async para criar as tabelas no PostgreSQL"""
     try:
-        await mongodb.create_collections()
-        yield
-    except asyncio.CancelledError:
-        pass
+        create_tables()
+        logger.info("Tabelas criadas com sucesso no PostgreSQL")
     except Exception as e:
-        logger(f"Erro ao se conectar com Data Base: {e}")
-    finally:
-        await mongodb.close()
+        logger.error(f"Erro ao se conectar com PostgreSQL: {e}")
+        
+    yield
+    
+    try:
+        close_db()
+    except Exception as e:
+        logger.error(f"Erro ao fechar conexão: {e}")
 
 
 app = FastAPI(title="Rag", lifespan=lifespan)
