@@ -1,7 +1,7 @@
 from typing import List, Optional
 from fastapi import Depends
 from sqlalchemy.orm import Session
-from ..model.prompt import (
+from ..model.prompt_model import (
     PromptEntity, 
     PromptCreateRequest, 
     PromptUpdateRequest, 
