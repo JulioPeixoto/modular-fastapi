@@ -6,7 +6,7 @@ from ..model.prompt_model import PromptEntity, PromptCreateRequest, PromptUpdate
 from datetime import datetime
 import uuid
 
-class PromptRepository:
+class PromptQueries:
     """Repository para gerenciar prompts no PostgreSQL"""
     
     def __init__(self, db: Session):
@@ -83,4 +83,4 @@ class PromptRepository:
 
 
 db = get_db()
-prompt_repository = PromptRepository(db=db) 
+prompt_repository = PromptQueries(db=db) 

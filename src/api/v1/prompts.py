@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, Query, Depends
 from typing import List
 
-from ...model.prompt_model import PromptCreateRequest, PromptUpdateRequest, PromptResponse
+from ...schemas.prompt_schema import PromptCreateRequest, PromptUpdateRequest, PromptResponse
 from ...services.prompt_service import PromptService, get_prompt_service
 
 router = APIRouter(tags=["prompts"])

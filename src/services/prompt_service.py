@@ -1,20 +1,20 @@
 from typing import List, Optional
 from fastapi import Depends
 from sqlalchemy.orm import Session
-from ..model.prompt_model import (
+from ..schemas.prompt_schema import (
     PromptEntity, 
     PromptCreateRequest, 
     PromptUpdateRequest, 
     PromptResponse
 )
-from ..queries.prompt_queries import PromptRepository
+from ..queries.prompt_queries import PromptQueries
 from ..core.database import get_db
 from ..lib import chains
 
 class PromptService:
     """Service para gerenciar a lógica de negócio dos prompts"""
     
-    def __init__(self, repository: PromptRepository):
+    def __init__(self, repository: PromptQueries):
         self.repository = repository
     
     def create_prompt_with_response(self, request: PromptCreateRequest) -> PromptResponse:
@@ -72,5 +72,5 @@ class PromptService:
         return self.repository.exists(prompt_id)
 
 def get_prompt_service(db: Session = Depends(get_db)) -> PromptService:
-    repository = PromptRepository(db)
-    return PromptService(repository)
+    queries = PromptQueries(db)
+    return PromptService(queries)
