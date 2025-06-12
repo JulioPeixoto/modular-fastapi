@@ -6,7 +6,6 @@ This repo is a boilerplate for building scalable and maintainable FastAPI applic
 
 ```
 src/
-├── __pycache__/
 ├── api/         # API routes and endpoints
 ├── core/        # Core settings, configuration, and utilities
 ├── lib/         # Shared libraries and helpers

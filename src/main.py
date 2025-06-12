@@ -25,7 +25,7 @@ async def lifespan(app: FastAPI):
         logger.error(f"Erro ao fechar conexão: {e}")
 
 
-app = FastAPI(title="Rag", lifespan=lifespan)
+app = FastAPI(title="Modular Boilerplate", lifespan=lifespan)
 
 _ORIGINS_ = os.getenv("ORIGINS", "*").split(",")
 
