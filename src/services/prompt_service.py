@@ -7,7 +7,7 @@ from ..model.prompt import (
     PromptUpdateRequest, 
     PromptResponse
 )
-from ..repository.prompt_repository import PromptRepository
+from ..queries.prompt_queries import PromptRepository
 from ..core.database import get_db
 from ..lib import chains
 
@@ -24,7 +24,8 @@ class PromptService:
         try:
             prompt_entity = self.repository.create(request)
             
-            ai_response = chains.openai_request(request.prompt)
+            #ai_response = chains.openai_request(request.prompt)
+            ai_response = "mock response"
             
             update_data = PromptUpdateRequest(response=ai_response)
             updated_prompt = self.repository.update(prompt_entity.id, update_data)
