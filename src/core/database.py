@@ -1,10 +1,8 @@
-from sqlalchemy import create_engine, Column, String, DateTime, Text
+from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-from datetime import datetime
 from dotenv import load_dotenv
 import os
-import uuid
 
 load_dotenv()
 
@@ -16,14 +14,6 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()
 
-class PromptModel(Base):
-    __tablename__ = "prompts"
-    
-    id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
-    prompt = Column(Text, nullable=False)
-    response = Column(Text, nullable=True)
-    created_at = Column(DateTime, default=datetime.utcnow)
-    updated_at = Column(DateTime, nullable=True)
 
 def get_db():
     db = SessionLocal()

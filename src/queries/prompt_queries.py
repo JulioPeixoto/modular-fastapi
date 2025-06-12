@@ -1,7 +1,8 @@
 from typing import List, Optional
 from sqlalchemy.orm import Session
 from sqlalchemy import select, update, delete
-from ..core.database import PromptModel, get_db
+from ..core.database import get_db
+from ..model.prompt_model import PromptModel
 from ..schemas.prompt_schema import PromptEntity, PromptCreateRequest, PromptUpdateRequest
 from datetime import datetime
 import uuid
