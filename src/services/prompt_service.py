@@ -8,7 +8,7 @@ from ..schemas.prompt_schema import (
     PromptResponse
 )
 from ..queries.prompt_queries import PromptQueries
-from ..core.database import get_db
+from ..core.db import get_db
 from ..lib import chains
 
 class PromptService:

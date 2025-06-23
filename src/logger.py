@@ -1,8 +1,6 @@
 import logging.config
-import os
 import colorlog
-
-LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
+from .core.settings import LOG_LEVEL
 
 LOGGING_CONFIG = {
     "version": 1,

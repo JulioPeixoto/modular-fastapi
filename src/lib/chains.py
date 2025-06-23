@@ -1,15 +1,9 @@
-# functions.py
-
 from langchain_openai import ChatOpenAI 
-from langchain.prompts import PromptTemplate
-from dotenv import load_dotenv
-import os
-
-load_dotenv()
+from src.core.settings import OPENAI_API_KEY
 
 def openai_request(prompt_text: str) -> str:
     try:
-        api_key = os.getenv("OPENAI_API_KEY")
+        api_key = OPENAI_API_KEY
         if not api_key:
             raise ValueError("API key not found in environment variables")
 

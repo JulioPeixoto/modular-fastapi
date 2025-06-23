@@ -1,10 +1,10 @@
 from starlette.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
-from .core.database import create_tables, close_db
+from .core.db import create_tables, close_db
 from fastapi import FastAPI
 from .api import api_router
 from .logger import logger
-import os
+from .core.settings import __ORIGINS__
 import uvicorn
 
 
@@ -27,10 +27,9 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(title="Modular Boilerplate", lifespan=lifespan)
 
-_ORIGINS_ = os.getenv("ORIGINS", "*").split(",")
 
 app.add_middleware(
-    CORSMiddleware, allow_origins=_ORIGINS_, allow_methods=["*"], allow_headers=["*"]
+    CORSMiddleware, allow_origins=__ORIGINS__, allow_methods=["*"], allow_headers=["*"]
 )
 
 # Incluir todas as rotas da API
