@@ -9,7 +9,6 @@ sys.path.append(str(pathlib.Path(__file__).resolve().parents[3]))
 
 from src.core.settings import DATABASE_URL
 
-
 config = context.config
 
 fileConfig(config.config_file_name)

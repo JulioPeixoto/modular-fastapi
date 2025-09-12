@@ -1,11 +1,13 @@
-from starlette.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
-from .core.db import create_tables, close_db
-from fastapi import FastAPI
-from .api import api_router
-from .logger import logger
-from .core.settings import __ORIGINS__
+
 import uvicorn
+from fastapi import FastAPI
+from starlette.middleware.cors import CORSMiddleware
+
+from .api import api_router
+from .core.db import close_db, create_tables
+from .core.settings import __ORIGINS__
+from src.core.logger import logger
 
 
 @asynccontextmanager
@@ -16,9 +18,9 @@ async def lifespan(app: FastAPI):
         logger.info("Tabelas criadas com sucesso no PostgreSQL")
     except Exception as e:
         logger.error(f"Erro ao se conectar com PostgreSQL: {e}")
-        
+
     yield
-    
+
     try:
         close_db()
     except Exception as e:

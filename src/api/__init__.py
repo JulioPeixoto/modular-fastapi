@@ -1,4 +1,5 @@
 from fastapi import APIRouter
+
 from .v1.prompts import router as v1_router
 
 api_router = APIRouter()

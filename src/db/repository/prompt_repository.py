@@ -1,20 +1,24 @@
-from typing import List, Optional
-from sqlalchemy.orm import Session
-from sqlalchemy import select, update, delete
-from ..core.database import get_db
-from ..model.prompt_model import PromptModel
-from ..schemas.prompt_schema import PromptEntity, PromptCreateRequest, PromptUpdateRequest
-from datetime import datetime
 import uuid
+from datetime import datetime
+from typing import List, Optional
+
+from sqlalchemy.orm import Session
+
+from src.core.db import get_db
+from src.models.prompt_model import PromptModel
+from src.schemas.prompt_schema import (
+    PromptCreateRequest,
+    PromptEntity,
+    PromptUpdateRequest,
+)
+
 
 class PromptQueries:
-    """Repository para gerenciar prompts no PostgreSQL"""
     
     def __init__(self, db: Session):
         self.db = db
     
     def create(self, prompt_data: PromptCreateRequest) -> PromptEntity:
-        """Criar um novo prompt"""
         prompt_id = str(uuid.uuid4())
         now = datetime.utcnow()
         
@@ -37,7 +41,6 @@ class PromptQueries:
         )
     
     def get_by_id(self, prompt_id: str) -> Optional[PromptEntity]:
-        """Buscar prompt por ID"""
         db_prompt = self.db.query(PromptModel).filter(PromptModel.id == prompt_id).first()
         
         if db_prompt:
@@ -51,7 +54,6 @@ class PromptQueries:
         return None
     
     def get_all(self, limit: int = 100, offset: int = 0) -> List[PromptEntity]:
-        """Listar todos os prompts com paginação"""
         db_prompts = self.db.query(PromptModel).order_by(PromptModel.created_at.desc()).limit(limit).offset(offset).all()
         
         return [
@@ -66,8 +68,7 @@ class PromptQueries:
         ]
     
     def update(self, prompt_id: str, update_data: PromptUpdateRequest) -> Optional[PromptEntity]:
-        """Atualizar um prompt existente"""
-        update_dict = update_data.dict(exclude_unset=True)
+        update_dict = update_data.model_dump(exclude_unset=True)
         
         if update_dict:
             update_dict['updated_at'] = datetime.utcnow()
@@ -77,11 +78,16 @@ class PromptQueries:
         return self.get_by_id(prompt_id)
     
     def delete(self, prompt_id: str) -> bool:
-        """Apagar um prompt"""
         result = self.db.query(PromptModel).filter(PromptModel.id == prompt_id).delete()
         self.db.commit()
         return result > 0
 
+    def delete_all(self) -> int:
+        result = self.db.query(PromptModel).delete()
+        self.db.commit()
+        return result
+    
+    def exists(self, prompt_id: str) -> bool:
+        return self.db.query(PromptModel).filter(PromptModel.id == prompt_id).first() is not None
 
-db = get_db()
-prompt_repository = PromptQueries(db=db) 
+prompt_repository = PromptQueries(db=next(get_db())) 

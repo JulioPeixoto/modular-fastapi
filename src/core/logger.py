@@ -1,6 +1,8 @@
 import logging.config
+
 import colorlog
-from .core.settings import LOG_LEVEL
+
+from src.core.settings import LOG_LEVEL
 
 LOGGING_CONFIG = {
     "version": 1,

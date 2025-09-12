@@ -16,3 +16,9 @@ dependencies = [
     "alembic>=1.13.0",
     "greenlet>=3.2.2",
 ]
+
+[dependency-groups]
+dev = [
+    "black>=25.1.0",
+    "isort>=6.0.1",
+]
