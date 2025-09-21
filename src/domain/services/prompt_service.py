@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 
 from src.core.db import get_db
 from src.db.repository.prompt_repository import PromptQueries
-from src.schemas.prompt_schema import (
+from src.domain.schemas.prompt_schema import (
     PromptCreateRequest,
     PromptResponse,
     PromptUpdateRequest,

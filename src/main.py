@@ -6,7 +6,7 @@ from starlette.middleware.cors import CORSMiddleware
 
 from .api import api_router
 from .core.db import close_db, create_tables
-from .core.settings import __ORIGINS__
+from .core.settings import settings
 from src.core.logger import logger
 
 
@@ -31,7 +31,10 @@ app = FastAPI(title="Modular Boilerplate", lifespan=lifespan)
 
 
 app.add_middleware(
-    CORSMiddleware, allow_origins=__ORIGINS__, allow_methods=["*"], allow_headers=["*"]
+    CORSMiddleware,
+    allow_origins=settings.origins,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 # Incluir todas as rotas da API

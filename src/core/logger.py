@@ -2,7 +2,7 @@ import logging.config
 
 import colorlog
 
-from src.core.settings import LOG_LEVEL
+from src.core.settings import settings
 
 LOGGING_CONFIG = {
     "version": 1,
@@ -38,7 +38,7 @@ LOGGING_CONFIG = {
         },
     },
     "root": {
-        "level": LOG_LEVEL,
+        "level": settings.log_level,
         "handlers": ["console", "file"],
     },
 }

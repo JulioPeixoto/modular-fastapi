@@ -7,7 +7,7 @@ from sqlalchemy import engine_from_config, pool
 
 sys.path.append(str(pathlib.Path(__file__).resolve().parents[3]))
 
-from src.core.settings import DATABASE_URL
+from src.core.settings import settings
 
 config = context.config
 
@@ -15,7 +15,7 @@ fileConfig(config.config_file_name)
 
 target_metadata = None
 
-config.set_main_option("sqlalchemy.url", str(DATABASE_URL))
+config.set_main_option("sqlalchemy.url", str(settings.database_url))
 
 
 def run_migrations_online() -> None:

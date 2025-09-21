@@ -3,7 +3,7 @@ from datetime import datetime
 
 from sqlalchemy import Column, DateTime, String, Text
 
-from ..core.db import Base
+from src.core.db import Base
 
 
 class PromptModel(Base):

@@ -2,12 +2,12 @@ from typing import List
 
 from fastapi import APIRouter, Depends, HTTPException, Query
 
-from ...schemas.prompt_schema import (
+from src.domain.schemas.prompt_schema import (
     PromptCreateRequest,
     PromptResponse,
     PromptUpdateRequest,
 )
-from ...services.prompt_service import PromptService, get_prompt_service
+from src.domain.services.prompt_service import PromptService, get_prompt_service
 
 router = APIRouter(tags=["prompts"])
 

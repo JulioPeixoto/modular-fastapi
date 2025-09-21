@@ -1,12 +1,18 @@
 import os
 
-from dotenv import load_dotenv
+from pydantic_settings import BaseSettings
 
-load_dotenv()
 
-DATABASE_URL = os.getenv("DATABASE_URL")
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-LOG_LEVEL = os.getenv("LOG_LEVEL")
-__ORIGINS__ = os.getenv("ORIGINS")
-DEBUG = os.getenv("DEBUG")
-ENVIRONMENT = os.getenv("ENVIRONMENT")
+class Settings(BaseSettings):
+    database_url: str = os.getenv("DATABASE_URL")
+    openai_api_key: str = os.getenv("OPENAI_API_KEY")
+    log_level: str = os.getenv("LOG_LEVEL")
+    origins: str = os.getenv("ORIGINS")
+    debug: str = os.getenv("DEBUG")
+    environment: str = os.getenv("ENVIRONMENT")
+
+    class Config:
+        env_file = ".env"
+        env_file_encoding = "utf-8"
+
+settings = Settings()
