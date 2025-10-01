@@ -1,23 +1,28 @@
-# Modular Layered FastAPI Boilerplate
+# fastapi-clean-arch
 
-This repo is a boilerplate for building scalable and maintainable FastAPI applications using a modular, layered architecture. It provides a clean separation of concerns and is ready to be extended for production use.
+This repository is a starting point for building scalable and maintainable FastAPI applications following Clean Architecture principles. The project emphasizes layer separation, modularity, and best practices, making it easy to evolve and test the system.
 
 ## Project Structure
 
 ```
 src/
-├── api/         # API routes and endpoints
-├── core/        # Core settings, configuration, and utilities
-├── lib/         # Shared libraries and helpers
-├── model/       # Database models and ORM definitions
-├── queries/     # Database queries and repository logic
-├── schemas/     # Pydantic schemas for data validation
-├── services/    # Business logic and service layer
+├── core/         # Core settings, logger, configuration
+├── domain/       # Domain models, schemas, and services
+│   ├── models/
+│   ├── schemas/
+│   └── services/
+├── external/     # Integrations with external services (e.g., OpenAI)
+├── http/         # HTTP routes, controllers, and exceptions
+│   ├── exceptions/
+│   └── v1/
+├── infra/        # Infrastructure: database, repositories, migrations
+│   ├── db.py
+│   ├── migrations/
+│   └── repository/
+├── main.py       # Application entrypoint
 ├── __init__.py
-├── logger.py    # Logging configuration
-├── main.py      # Application entrypoint
 
-tests/           # Unit and integration tests
+tests/            # Unit and integration tests
 ```
 
 ## Getting Started with Docker
@@ -27,11 +32,11 @@ Make sure you have [Docker](https://www.docker.com/) and [Docker Compose](https:
 1. **Clone the repository:**
    ```bash
    git clone <your-repo-url>
-   cd boilerplate-llmapp-fastapi
+   cd fastapi-clean-arch
    ```
 
-2. **Copy and configure environment variables:**
-   Create a `.env` file in the root directory and set the required environment variables as needed.
+2. **Configure environment variables:**
+   Create a `.env` file in the project root and set the required variables.
 
 3. **Start the application:**
    ```bash
