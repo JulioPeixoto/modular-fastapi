@@ -4,15 +4,14 @@ import uvicorn
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 
-from .api import api_router
-from .core.db import close_db, create_tables
-from .core.settings import settings
+from src.api import api_router
 from src.core.logger import logger
+from src.core.settings import settings
+from src.infra.db import close_db, create_tables
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    """Função async para criar as tabelas no PostgreSQL"""
     try:
         create_tables()
         logger.info("Tabelas criadas com sucesso no PostgreSQL")

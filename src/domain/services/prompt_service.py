@@ -3,18 +3,18 @@ from typing import List, Optional
 from fastapi import Depends
 from sqlalchemy.orm import Session
 
-from src.core.db import get_db
-from src.db.repository.prompt_repository import PromptQueries
 from src.domain.schemas.prompt_schema import (
     PromptCreateRequest,
     PromptResponse,
     PromptUpdateRequest,
 )
+from src.infra.db import get_db
+from src.infra.repository.prompt_repository import PromptRepository
 
 
 class PromptService:
 
-    def __init__(self, repository: PromptQueries):
+    def __init__(self, repository: PromptRepository):
         self.repository = repository
 
     def create_prompt_with_response(
@@ -32,7 +32,7 @@ class PromptService:
                 return PromptResponse(**prompt_entity.model_dump())
 
         except Exception as e:
-            if 'prompt_entity' in locals() and prompt_entity:
+            if "prompt_entity" in locals() and prompt_entity:
                 return PromptResponse(**prompt_entity.model_dump())
             raise e
 
@@ -68,5 +68,5 @@ class PromptService:
 
 
 def get_prompt_service(db: Session = Depends(get_db)) -> PromptService:
-    queries = PromptQueries(db)
+    queries = PromptRepository(db)
     return PromptService(queries)
