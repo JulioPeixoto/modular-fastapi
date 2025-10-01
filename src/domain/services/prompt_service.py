@@ -8,14 +8,14 @@ from src.domain.schemas.prompt_schema import (
     PromptResponse,
     PromptUpdateRequest,
 )
-from src.infra.db import get_db
+from src.infra.db import get_db as session
 from src.infra.repository.prompt_repository import PromptRepository
 
 
 class PromptService:
 
-    def __init__(self, repository: PromptRepository):
-        self.repository = repository
+    def __init__(self):
+        self.repository = PromptRepository(session)
 
     def create_prompt_with_response(
         self, request: PromptCreateRequest
@@ -67,6 +67,6 @@ class PromptService:
         return self.repository.exists(prompt_id)
 
 
-def get_prompt_service(db: Session = Depends(get_db)) -> PromptService:
-    queries = PromptRepository(db)
+def get_prompt_service(db: Session = Depends(session)) -> PromptService:
+    queries = PromptRepository(session)
     return PromptService(queries)

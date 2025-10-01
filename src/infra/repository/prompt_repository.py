@@ -14,8 +14,8 @@ from src.domain.schemas.prompt_schema import (
 
 class PromptRepository:
 
-    def __init__(self, db: Session):
-        self.db = db
+    def __init__(self, session: Session):
+        self.db = session
 
     def create(self, prompt_data: PromptCreateRequest) -> PromptEntity:
         prompt_id = str(uuid.uuid4())
